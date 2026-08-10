@@ -1,4 +1,4 @@
-package Java_dsa;
+package Array.Logical_Problem;
 
 import java.util.Scanner;
 

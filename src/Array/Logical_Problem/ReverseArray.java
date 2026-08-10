@@ -22,8 +22,8 @@ public static void input(int a){
     Scanner sc = new Scanner(System.in);
     System.out.println("enter the size of array");
     int b = sc.nextInt();
-    int arr[] = new arr[b];
-    for (int i = 0;i<b;i++)
+    int arr[] = new int[b];
+
 
 
 }
