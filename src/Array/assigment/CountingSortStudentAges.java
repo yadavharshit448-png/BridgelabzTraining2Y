@@ -1,4 +1,4 @@
-package Array.Sorting_Algorithms;
+package Array.assigment;
 
 import java.util.Arrays;
 import java.util.Scanner;
