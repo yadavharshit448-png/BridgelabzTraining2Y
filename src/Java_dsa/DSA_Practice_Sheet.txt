@@ -1,0 +1,311 @@
+================================================================================
+DATA STRUCTURES AND ALGORITHMS (DSA) PRACTICE SHEET
+TOPICS: PSEUDOCODE, FLOWCHARTS, TIME COMPLEXITY & SPACE COMPLEXITY
+================================================================================
+
+================================================================================
+🧩 SECTION 1: PSEUDOCODE PROBLEMS
+================================================================================
+
+--------------------------------------------------------------------------------
+PROBLEM PC-1: PRIME NUMBER CHECKER
+--------------------------------------------------------------------------------
+Problem Description:
+Write a pseudocode algorithm that takes a positive integer N > 1 as input and 
+checks whether it is a Prime number or Not Prime. Optimize the loop to only 
+test factors up to sqrt(N) or N/2.
+
+Pseudocode:
+--------------------------------------------------------------------------------
+ALGORITHM CheckPrime(N)
+    // Input: A positive integer N > 1
+    // Output: Print "Prime" if N has no divisors other than 1 and itself;
+    //         otherwise print "Not Prime".
+
+    // Step 1: Input Validation
+    IF N <= 1 THEN
+        PRINT "Not Prime"
+        RETURN
+    END IF
+
+    // Step 2: Handle small base primes
+    IF N == 2 OR N == 3 THEN
+        PRINT "Prime"
+        RETURN
+    END IF
+
+    // Step 3: Fast filter for even numbers > 2
+    IF N MOD 2 == 0 THEN
+        PRINT "Not Prime"
+        RETURN
+    END IF
+
+    // Step 4: Check odd divisors up to sqrt(N)
+    // Note: Condition (i * i <= N) is computationally equivalent to (i <= sqrt(N))
+    // without requiring floating-point square root operations.
+    SET isPrime = TRUE
+    FOR i = 3 TO SQRT(N) STEP 2 DO
+        IF N MOD i == 0 THEN
+            isPrime = FALSE
+            BREAK
+        END IF
+    END FOR
+
+    // Step 5: Output decision
+    IF isPrime == TRUE THEN
+        PRINT "Prime"
+    ELSE
+        PRINT "Not Prime"
+    END IF
+END ALGORITHM
+
+Dry Run Examples:
+-----------------
+Example 1: Input: N = 61
+  - N > 1 (Valid)
+  - N != 2 and N != 3
+  - 61 MOD 2 != 0 (Odd number)
+  - sqrt(61) ≈ 7.81 -> Loop checks i = 3, 5, 7:
+      * i = 3: 61 MOD 3 = 1 != 0
+      * i = 5: 61 MOD 5 = 1 != 0
+      * i = 7: 61 MOD 7 = 5 != 0
+      * i = 9: 9 * 9 = 81 > 61 -> Loop terminates
+  - isPrime remains TRUE.
+  - Output: "Prime"
+
+Example 2: Input: N = 8
+  - N > 1 (Valid)
+  - 8 MOD 2 == 0 (True)
+  - Output: "Not Prime"
+
+
+--------------------------------------------------------------------------------
+PROBLEM PC-2: NUMBER DIGIT REVERSAL
+--------------------------------------------------------------------------------
+Problem Description:
+Write a pseudocode algorithm that takes an integer N as input and returns the 
+number with its digits reversed using loops, remainder (MOD), and integer 
+division (DIV) operations.
+
+Pseudocode:
+--------------------------------------------------------------------------------
+ALGORITHM ReverseDigits(N)
+    // Input: An integer N
+    // Output: An integer representing N with digits reversed
+
+    // Step 1: Track and handle negative numbers
+    SET isNegative = FALSE
+    IF N < 0 THEN
+        SET isNegative = TRUE
+        SET N = -N
+    END IF
+
+    // Step 2: Initialize reversed number accumulator
+    SET reversedNum = 0
+
+    // Step 3: Extract digits mathematically
+    WHILE N > 0 DO
+        SET remainder = N MOD 10                       // Extract rightmost digit
+        SET reversedNum = (reversedNum * 10) + remainder // Shift left & append
+        SET N = N DIV 10                               // Truncate rightmost digit
+    END WHILE
+
+    // Step 4: Reapply negative sign if applicable
+    IF isNegative == TRUE THEN
+        SET reversedNum = -reversedNum
+    END IF
+
+    RETURN reversedNum
+END ALGORITHM
+
+Dry Run Examples:
+-----------------
+Example 1: Input: N = 1234
+  - Initial: reversedNum = 0, N = 1234
+  - Iteration 1: remainder = 1234 MOD 10 = 4
+                 reversedNum = (0 * 10) + 4 = 4
+                 N = 1234 DIV 10 = 123
+  - Iteration 2: remainder = 123 MOD 10 = 3
+                 reversedNum = (4 * 10) + 3 = 43
+                 N = 123 DIV 10 = 12
+  - Iteration 3: remainder = 12 MOD 10 = 2
+                 reversedNum = (43 * 10) + 2 = 432
+                 N = 12 DIV 10 = 1
+  - Iteration 4: remainder = 1 MOD 10 = 1
+                 reversedNum = (432 * 10) + 1 = 4321
+                 N = 1 DIV 10 = 0
+  - Loop terminates because N == 0.
+  - Output: 4321
+
+Example 2: Input: N = 806
+  - Initial: reversedNum = 0, N = 806
+  - Iteration 1: remainder = 806 MOD 10 = 6, reversedNum = 6, N = 80
+  - Iteration 2: remainder = 80 MOD 10 = 0, reversedNum = (6 * 10) + 0 = 60, N = 8
+  - Iteration 3: remainder = 8 MOD 10 = 8, reversedNum = (60 * 10) + 8 = 608, N = 0
+  - Output: 608
+
+
+================================================================================
+📊 SECTION 2: FLOWCHART PROBLEMS
+================================================================================
+
+--------------------------------------------------------------------------------
+PROBLEM FC-1: PRIME NUMBER FLOWCHART
+--------------------------------------------------------------------------------
+Flowchart Components:
+  1. Terminal Block [START]
+  2. Input Block [/Read integer N/]
+  3. Decision Diamond {Is N <= 1?}
+       -> YES: Output [/Not Prime/] -> [END]
+  4. Decision Diamond {Is N == 2 OR N == 3?}
+       -> YES: Output [/Prime/] -> [END]
+  5. Decision Diamond {Is N MOD 2 == 0?}
+       -> YES: Output [/Not Prime/] -> [END]
+  6. Process Block [Set i = 3]
+  7. Decision Diamond {Is (i * i) <= N?}  (Loop Bound: sqrt(N))
+       -> NO: Output [/Prime/] -> [END]
+       -> YES: Decision Diamond {Is N MOD i == 0?}
+            -> YES: Output [/Not Prime/] -> [END]
+            -> NO: Process [Set i = i + 2] -> Loop back to {Is (i * i) <= N?}
+
+ASCII Diagram:
+--------------------------------------------------------------------------------
+                    +---------------+
+                    |     START     |
+                    +---------------+
+                            |
+                            v
+                    +---------------+
+                    | Read input N  |
+                    +---------------+
+                            |
+                            v
+                    /---------------\
+                   <   Is N <= 1?    > --- YES ---> Print "Not Prime" ---> [END]
+                    \---------------/
+                            | NO
+                            v
+                    /---------------\
+                   <  Is N == 2 or 3?> --- YES ---> Print "Prime" --------> [END]
+                    \---------------/
+                            | NO
+                            v
+                    /---------------\
+                   <  Is N % 2 == 0? > --- YES ---> Print "Not Prime" ---> [END]
+                    \---------------/
+                            | NO
+                            v
+                    +---------------+
+                    |    Set i = 3  |
+                    +---------------+
+                            |
+             +------------> |
+             |              v
+             |      /---------------\
+             |     <   Is i*i <= N?  > --- NO ----> Print "Prime" --------> [END]
+             |      \---------------/
+             |              | YES
+             |              v
+             |      /---------------\
+             |     <  Is N % i == 0? > --- YES ---> Print "Not Prime" ---> [END]
+             |      \---------------/
+             |              | NO
+             |              v
+             |      +---------------+
+             +----- |   i = i + 2   |
+                    +---------------+
+
+Mermaid Code:
+--------------------------------------------------------------------------------
+```mermaid
+flowchart TD
+    A([Start]) --> B[/Read integer N/]
+    B --> C{N <= 1 ?}
+    C -- Yes --> D[/Print 'Not Prime'/] --> Z([End])
+    C -- No --> E{N == 2 or N == 3 ?}
+    E -- Yes --> F[/Print 'Prime'/] --> Z
+    E -- No --> G{N % 2 == 0 ?}
+    G -- Yes --> H[/Print 'Not Prime'/] --> Z
+    G -- No --> I[Initialize i = 3]
+    I --> J{i * i <= N ?}
+    J -- No --> K[/Print 'Prime'/] --> Z
+    J -- Yes --> L{N % i == 0 ?}
+    L -- Yes --> M[/Print 'Not Prime'/] --> Z
+    L -- No --> N[i = i + 2]
+    N --> J
+```
+
+
+--------------------------------------------------------------------------------
+PROBLEM FC-2: NUMBER DIGIT REVERSAL FLOWCHART
+--------------------------------------------------------------------------------
+Flowchart Components:
+  1. Terminal Block [START]
+  2. Input Block [/Read integer N/]
+  3. Process Block [Set reversedNum = 0]
+  4. Decision Diamond {Is N > 0?} (Loop Condition)
+       -> YES:
+            * Process [remainder = N MOD 10]
+            * Process [reversedNum = (reversedNum * 10) + remainder]
+            * Process [N = N DIV 10]
+            * Loop back to {Is N > 0?}
+       -> NO:
+            * Output Block [/Print reversedNum/]
+            * Terminal Block [END]
+
+ASCII Diagram:
+--------------------------------------------------------------------------------
+                    +---------------+
+                    |     START     |
+                    +---------------+
+                            |
+                            v
+                    +---------------+
+                    | Read input N  |
+                    +---------------+
+                            |
+                            v
+                    +--------------------+
+                    |  reversedNum = 0   |
+                    +--------------------+
+                            |
+             +------------> |
+             |              v
+             |      /---------------\
+             |     <     Is N > 0?   > --- NO ----+
+             |      \---------------/             |
+             |              | YES                 |
+             |              v                     |
+             |      +------------------------------+
+             |      | remainder = N % 10           |
+             |      | reversedNum = (rev * 10) + rem|
+             |      | N = N / 10                   |
+             |      +------------------------------+
+             |              |                     |
+             +--------------+                     |
+                                                  v
+                                      +------------------------+
+                                      |   Print reversedNum    |
+                                      +------------------------+
+                                                  |
+                                                  v
+                                          +---------------+
+                                          |      END      |
+                                          +---------------+
+
+Mermaid Code:
+--------------------------------------------------------------------------------
+```mermaid
+flowchart TD
+    A([Start]) --> B[/Read integer N/]
+    B --> C[reversedNum = 0]
+    C --> D{N > 0 ?}
+    D -- Yes --> E["remainder = N % 10<br/>reversedNum = (reversedNum * 10) + remainder<br/>N = N / 10"]
+    E --> D
+    D -- No --> F[/Output reversedNum/]
+    F --> G([End])
+```
+
+================================================================================
+END OF TEXT SUBMISSION FILE
+================================================================================
